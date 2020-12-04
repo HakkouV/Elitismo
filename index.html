@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            href="https://fonts.googleapis.com/css?family=Alata"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossorigin="anonymous"
+        />
+        <title>Gerador de Elitista</title>
+
+        <style>
+            body {
+                font-size: 3em;
+                font-family: "Verdana", Courier, monospace;
+                background: #181818;
+                color: #ffffff;
+                text-align: center;
+            }
+
+            .center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+            }
+
+            .center > div {
+                display: inline-block;
+                width: 500px;
+                border-bottom: 5px dotted #ffed8a5e;
+                color: #f7ff89;
+            }
+
+            .center button {
+                display: block;
+                background-color: #444444;
+                width: 100%;
+                margin-top: 24px;
+                color: #f7ff89;
+                padding: 8px 0;
+                border-radius: 5px;
+                border: 0;
+                font: inherit;
+                font-size: 1.5rem;
+
+                transition: opacity ease-in 1s;
+            }
+
+            @media (max-width: 900px) {
+                body {
+                    font-size: 3rem;
+                }
+
+                .center > div {
+                    width: 400px;
+                }
+            }
+
+            @media (max-width: 600px) {
+                body {
+                    font-size: 1.8rem;
+                }
+
+                .center {
+                    width: 90%;
+                }
+
+                .center > div {
+                    width: 220px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <noscript> Você precisa ativar JavaScript para rodar esse website. </noscript>
+        <div class="center">
+            Um elitista com o anime favorito sendo
+            <div id="anime"></div>
+            onde ele discute diariamente sobre
+            <div id="temas"></div>
+            Mas ele é na verdade um
+            <div id="adjetivo"></div>
+            com
+            <div id="crise"></div>
+            e tenta esconder através de
+            <div id="metodos"></div>
+
+            <button onclick="generate()">Gerar</button>
+        </div>
+    </body>
+
+    <script>
+        let button = document.getElementsByTagName("button")[0];
+
+        let options = [
+            {
+                id: "anime",
+                values: [
+                    "Evangelion",
+                    "Tatami Galaxy",
+                    "Legend of the Galactic Heroes",
+                    "Serial Experiments Lain",
+                    "Ashita no Joe",
+                    "NHK ni Youkoso",
+                    "Texhnolyze",
+                    "Cowboy Bebop",
+                    "Gundam",
+                    "FLCL",
+                    "Macross",
+                    "Berserk",
+                    "Kaiji",
+                    "Haibane Renmei",
+                    "Princess Tutu",
+                    "Ergo Proxy",
+                    "Angel's Egg",
+                    "Area 88",
+                    "Detective Conan",
+                    "The End of Evangelion",
+                    "Sketchbook: Full Color's",
+                    "Fullmetal Alchemist: Brotherhood",
+                    "Sayonara Zetsubou Sensei",
+                ],
+            },
+            {
+                id: "temas",
+                values: [
+                    "a animação.",
+                    "a trama.",
+                    "o enredo.",
+                    "a direção.",
+                    "os subtemas escondidos.",
+                    "o real significado da obra.",
+                    "o seu impacto no mundo dos animes/mangás.",
+                ],
+            },
+            {
+                id: "adjetivo",
+                values: [
+                    "gordo",
+                    "inseguro",
+                    "maluco",
+                    "magrelo",
+                    "branco",
+                    "preto",
+                    "pobre",
+                    "verme",
+                    "nerdola",
+                    "cria",
+                ],
+            },
+            {
+                id: "crise",
+                values: [
+                    "depressão",
+                    "esquizofrenia",
+                    "ansiedade",
+                    "retardo mental",
+                    "síndrome de down",
+                    "autismo",
+                    "burro",
+                ],
+            },
+            {
+                id: "metodos",
+                values: [
+                    "um blog pessoal onde ele escreve resenhas e reviews sobre animes.",
+                    "um canal no youtube.",
+                    "uma conta no twitter sobre animes.",
+                    "shitposting no server do discord favorito dele.",
+                ],
+            },
+        ];
+
+        let shuffle = (action) => {
+            return new Promise((resolve) => {
+                let count = 0;
+                let iterations = 20;
+
+                let interval = setInterval(() => {
+                    action();
+
+                    if (count++ >= iterations) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        };
+
+        let getNextUniqueValue = (values, val) => {
+            let currIndex = values.indexOf(val);
+
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * values.length);
+            } while (newIndex === currIndex);
+
+            return values[newIndex];
+        };
+
+        let generate = async () => {
+            button.style.opacity = 0;
+            button.style.visibility = "hidden";
+
+            await shuffle(() => {
+                options.forEach((opt) => {
+                    let el = document.getElementById(opt.id);
+                    el.innerHTML = getNextUniqueValue(opt.values, el.innerHTML);
+                });
+            });
+
+            button.style.opacity = 1;
+            button.style.visibility = "visible";
+        };
+
+        generate();
+    </script>
+</html>
